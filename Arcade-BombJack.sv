@@ -170,7 +170,8 @@ module emu
 	input   [6:0] USER_IN,
 	output  [6:0] USER_OUT,
 
-	input         OSD_STATUS
+	input         OSD_STATUS,
+	output   [7:0] DEBUG
 );
 
 assign {SD_SCK, SD_MOSI, SD_CS} = 'Z;
@@ -420,6 +421,7 @@ wire hs_write;
 wire hs_pause;
 wire hs_configured;
 
+`ifdef LARGE_FPGA
 hiscore #(
 	.HS_ADDRESSWIDTH(16),
 	.CFG_ADDRESSWIDTH(4),
@@ -440,5 +442,6 @@ hiscore #(
 	.pause_cpu(hs_pause),
 	.configured(hs_configured)
 );
+`endif
 
 endmodule
