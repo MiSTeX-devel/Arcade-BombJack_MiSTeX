@@ -1,3 +1,6 @@
 #!/bin/bash
 quartus_sh --flow compile *.qpf
-quartus_cpf -c output_files/Arcade-BombJack.sof output_files/Arcade-BombJack.rbf
+SOF=$(echo output_files/*.sof)
+RBF=$(echo $SOF | sed s,sof,rbf,g)
+quartus_cpf -c $SOF $RBF
+
