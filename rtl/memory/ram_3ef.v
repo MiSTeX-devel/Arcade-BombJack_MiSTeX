@@ -10,7 +10,7 @@ module ram_3ef (
 
 parameter  addr_width_g = 11;
 parameter  data_width_g = 8;
-localparam addr_max = addr_width_g ** 2 - 1;
+localparam addr_max = (2 ** addr_width_g) - 1;
 
 input   clock, wren;
 input   [addr_width_g-1:0] address;
