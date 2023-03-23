@@ -198,7 +198,7 @@ assign VIDEO_ARX = (!ar) ? ((status[2])  ? 8'd4 : 8'd3) : (ar - 1'd1);
 assign VIDEO_ARY = (!ar) ? ((status[2])  ? 8'd3 : 8'd4) : 12'd0;
 
 
-`include "build_id.v" 
+`include "build_id.vh" 
 localparam CONF_STR = {
 	"A.BMBJCK;;",
 	"H0OLM,Aspect ratio,Original,Full Screen,[ARC1],[ARC2];",

@@ -42,7 +42,7 @@ i2c #(50_000_000, 20_000) i2c_av
 );
 
 //////////////////////	Config Control	////////////////////////////
-always@(posedge iCLK or negedge iRST_N) begin
+always@(posedge iCLK or negedge iRST_N) begin : setup_block
 	reg  [1:0] mSetup_ST = 0;
 
 	if(!iRST_N) begin

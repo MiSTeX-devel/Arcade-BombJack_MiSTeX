@@ -55,14 +55,14 @@ end char_gen;
 architecture RTL of char_gen is
 
 -- Page 6
-	signal s_9000_rd_n		: std_logic := '0';
+	signal s_9000_rd_n			: std_logic := '0';
 	signal s_4M12				: std_logic := '0';
 	signal s_6N8				: std_logic := '0';
 	signal s_6P11				: std_logic := '0';
 	signal s_6P3				: std_logic := '0';
 	signal s_6P6				: std_logic := '0';
 	signal s_6P8				: std_logic := '0';
-	signal s_6LM_wr			: std_logic := '0';
+	signal s_6LM_wr				: std_logic := '0';
 	signal s_sv_s1				: std_logic := '0';
 	signal s_sv_s1_s0			: std_logic_vector( 1 downto 0) := (others => '0');
 	signal s_6LM_addr			: std_logic_vector(10 downto 0) := (others => '0');
@@ -72,6 +72,8 @@ architecture RTL of char_gen is
 	signal s_shifter_7J_7K	: std_logic_vector( 7 downto 0) := (others => '0');
 	signal s_shifter_7F_7H	: std_logic_vector( 7 downto 0) := (others => '0');
 	signal s_shifter_7D_7E	: std_logic_vector( 7 downto 0) := (others => '0');
+
+	signal true             : std_logic := '1';
 begin
 
 	O_DB <= s_6LM_data; -- when s_6LM_wr = '1' else (others => 'Z');
@@ -89,6 +91,7 @@ begin
 	port map (
 		address_a	=> s_6LM_addr,
 		clock_a		=> I_CLK_12M, -- due to T80 early read in T3 state, this 2x clock is required here
+		enable_a    => true,
 		data_a		=> I_DB,
 		wren_a		=> s_6LM_wr,
 		q_a			=> s_6LM_data,
@@ -96,10 +99,10 @@ begin
 		-- HISCORE ACCESS
 		address_b	=> hs_address(10 downto 0),
 		clock_b		=> I_CLK_48M,
-		enable_b		=> hs_enable,
+		enable_b	=> hs_enable,
 		data_b		=> hs_data_in,
 		wren_b		=> hs_write,
-		q_b		=> hs_data_out
+		q_b			=> hs_data_out
 	);
 
 	-- chip 5L page 6

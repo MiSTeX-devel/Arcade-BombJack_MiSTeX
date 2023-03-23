@@ -272,6 +272,9 @@ architecture RTL of BOMB_JACK is
 	signal hs_data_out_1e	: std_logic_vector(7 downto 0) := (others => '0');
 	signal hs_data_out_6lm	: std_logic_vector(7 downto 0) := (others => '0');
 	
+	-- CONSTANTS
+	signal one		        : std_logic := '1';
+
 begin
 
 	O_VIDEO_R			<= s_red;
@@ -488,8 +491,8 @@ begin
 		RESET_n		=> cpu_reset_n,
 		CLK_n		=> clk_12M,
 		CLKEN		=> clk_4M_en,
-		INT_n		=> '1',  -- unused
-		BUSRQ_n		=> '1',  -- unused
+		INT_n		=> one,  -- unused
+		BUSRQ_n		=> one,  -- unused
 		-- outputs
 		RFSH_n		=> cpu_rfsh_n,
 		MREQ_n		=> cpu_mreq_n,

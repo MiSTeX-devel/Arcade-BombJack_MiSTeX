@@ -39,7 +39,7 @@ module sys_top
 	output [23:0] HDMI_TX_D,
 	output        HDMI_TX_HS,
 	output        HDMI_TX_VS,
-
+	
 	input         HDMI_TX_INT,
 `endif
 
@@ -121,40 +121,18 @@ module sys_top
 	output  [3:0] DEBUG
 );
 
-wire [2:0] PLL_CLOCKS;
+wire FPGA_CLK1_50;
+wire FPGA_CLK2_50;
+wire FPGA_CLK3_50;
+wire SPI_CLK_100;
 
-ALTPLL #(
-	.BANDWIDTH_TYPE("AUTO"),
-	.CLK0_DIVIDE_BY(4'd12),
-	.CLK0_DUTY_CYCLE(6'd50),
-	.CLK0_MULTIPLY_BY(5'd12),
-	.CLK0_PHASE_SHIFT(1'd0),
-	.CLK1_DIVIDE_BY(4'd12),
-	.CLK1_DUTY_CYCLE(6'd50),
-	.CLK1_MULTIPLY_BY(5'd12),
-	.CLK1_PHASE_SHIFT(1'd0),
-	.CLK2_DIVIDE_BY(4'd12),
-	.CLK2_DUTY_CYCLE(6'd50),
-	.CLK2_MULTIPLY_BY(5'd12),
-	.CLK2_PHASE_SHIFT(1'd0),
-	.COMPENSATE_CLOCK("CLK0"),
-	.INCLK0_INPUT_FREQUENCY(24'd50000),
-	.OPERATION_MODE("NORMAL")
-) main_pll (
-	.ARESET(1'd0),
-	.CLKENA(5'd31),
-	.EXTCLKENA(4'd15),
-	.FBIN(1'd1),
+top_crg top_crg (
 	.INCLK(CLK_50),
-	.PFDENA(1'd1),
-	.PLLENA(1'd1),
-	.CLK(PLL_CLOCKS),
-	.LOCKED()
+	.FPGA_CLK1_50(FPGA_CLK1_50),
+	.FPGA_CLK2_50(FPGA_CLK2_50),
+	.FPGA_CLK3_50(FPGA_CLK3_50),
+	.SPI_CLK_100(SPI_CLK_100)
 );
-
-wire FPGA_CLK1_50 = PLL_CLOCKS[0];
-wire FPGA_CLK2_50 = PLL_CLOCKS[1];
-wire FPGA_CLK3_50 = PLL_CLOCKS[2];
 
 //////////////////////  Secondary SD  ///////////////////////////////////
 wire SD_CS, SD_CLK, SD_MOSI;
@@ -227,7 +205,7 @@ mcp23009 mcp23009
 `endif
 
 reg btn_user, btn_osd;
-always @(posedge FPGA_CLK2_50) begin
+always @(posedge FPGA_CLK2_50) begin : user_button_block
 	integer div;
 	reg [7:0] deb_user;
 	reg [7:0] deb_osd;
@@ -303,15 +281,17 @@ hps_interface hps_interface (
 	.reset(reset_req)
 );
 
+`ifdef DEBUG_GPOUT
 spi_master spi_debug (
-	.spi_controller__sdo(DEBUG[0]),
+	.spi_controller__sdo(DEBUG[1]),
 	.spi_controller__sck(DEBUG[2]),
 	.spi_controller__cs(DEBUG[3]),
 	.word_out({io_fpga, io_uio, gp_out[15:0], io_dout}),
 	.start_transfer(io_strobe),
 	.clk(clk_sys),
-	.rst(reset_req),
+	.rst(reset_req)
 	);
+`endif
 
 reg [15:0] cfg;
 
@@ -372,7 +352,7 @@ reg [12:0] arc1y = 0;
 reg [12:0] arc2x = 0;
 reg [12:0] arc2y = 0;
 
-always@(posedge clk_sys) begin
+always@(posedge clk_sys) begin : cmd_block
 	reg  [7:0] cmd;
 	reg        has_cmd;
 	reg        old_strobe;
@@ -736,7 +716,7 @@ reg [11:0] vmax;
 reg [11:0] hdmi_height;
 reg [11:0] hdmi_width;
 
-always @(posedge clk_vid) begin
+always @(posedge clk_vid) begin : video_calc_block
 	reg [11:0] hmini,hmaxi,vmini,vmaxi;
 	reg [11:0] wcalc,videow,arx;
 	reg [11:0] hcalc,videoh,ary;
@@ -861,7 +841,7 @@ wire        pal_wr;
 
 reg  [28:0] pal_addr;
 reg         pal_req = 0;
-always @(posedge clk_pal) begin
+always @(posedge clk_pal) begin : vs_block
 	reg old_vs1, old_vs2;
 
 	pal_addr <= LFB_BASE[31:3] - 29'd512;
@@ -922,7 +902,7 @@ pll_cfg pll_cfg
 );
 
 reg cfg_got = 0;
-always @(posedge clk_sys) begin
+always @(posedge clk_sys) begin : vsd_block
 	reg vsd, vsd2;
 	if(~cfg_ready || ~cfg_set) cfg_got <= cfg_set;
 	else begin
@@ -933,7 +913,7 @@ always @(posedge clk_sys) begin
 end
 
 reg cfg_ready = 0;
-always @(posedge FPGA_CLK1_50) begin
+always @(posedge FPGA_CLK1_50) begin : gotd_block
 	reg gotd = 0, gotd2 = 0;
 	reg custd = 0, custd2 = 0;
 	reg old_wait = 0;
@@ -1042,7 +1022,7 @@ csync csync_hdmi(clk_hdmi, hdmi_hs_osd, hdmi_vs_osd, hdmi_cs_osd);
 
 reg [23:0] dv_data;
 reg        dv_hs, dv_vs, dv_de;
-always @(posedge clk_vid) begin
+always @(posedge clk_vid) begin : dv_block
 	reg [23:0] dv_d1, dv_d2;
 	reg        dv_de1, dv_de2, dv_hs1, dv_hs2, dv_vs1, dv_vs2;
 	reg [12:0] vsz, vcnt;
@@ -1123,7 +1103,7 @@ reg hdmi_out_vs;
 reg hdmi_out_de;
 reg [23:0] hdmi_out_d;
 
-always @(posedge hdmi_tx_clk) begin
+always @(posedge hdmi_tx_clk) begin : hdmi_out_block
 	reg hs,vs,de;
 	reg [23:0] d;
 	
@@ -1231,7 +1211,7 @@ csync csync_vga(clk_vid, vga_hs_osd, vga_vs_osd, vga_cs_osd);
 `endif
 
 reg video_sync = 0;
-always @(posedge clk_vid) begin
+always @(posedge clk_vid) begin : line_block
 	reg [11:0] line_cnt  = 0;
 	reg [11:0] sync_line = 0;
 	reg  [1:0] hs_cnt = 0;
@@ -1554,7 +1534,7 @@ module sync_fix
 assign sync_out = sync_in ^ pol;
 
 reg pol;
-always @(posedge clk) begin
+always @(posedge clk) begin : pol_block
 	integer pos = 0, neg = 0, cnt = 0;
 	reg s1,s2;
 
@@ -1589,7 +1569,7 @@ module csync
 assign csync = (csync_vs ^ csync_hs);
 
 reg csync_hs, csync_vs;
-always @(posedge clk) begin
+always @(posedge clk) begin : h_cnt_block
 	reg prev_hs;
 	reg [15:0] h_cnt, line_len, hs_len;
 

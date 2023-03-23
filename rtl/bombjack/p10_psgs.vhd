@@ -75,6 +75,9 @@ architecture RTL of psgs is
 	signal s_psg2_out		: std_logic_vector( 7 downto 0) := (others => '0');
 	signal s_psg3_out		: std_logic_vector( 7 downto 0) := (others => '0');
 
+	signal zero		        : std_logic := '0';
+	signal one		        : std_logic := '1';
+
 begin
 	-- CPU data bus mux
 	O_SD <=
@@ -104,9 +107,9 @@ begin
 			I_DA						=> I_SD,
 			O_DA						=> s_34D_data,
 			-- control
-			I_A9_L					=> '0',
-			I_A8						=> '1',
-			I_SEL_L					=> '0', -- low to halve the 3Mhz clock
+			I_A9_L					    => zero,
+			I_A8						=> one,
+			I_SEL_L					    => zero, -- low to halve the 3Mhz clock
 
 			I_BDIR					=> s_5C1,
 			I_BC2						=> s_5C10,
@@ -125,9 +128,9 @@ begin
 			I_DA						=> I_SD,
 			O_DA						=> s_34C_data,
 			-- control
-			I_A9_L					=> '0',
-			I_A8						=> '1',
-			I_SEL_L					=> '0', -- low to halve the 3Mhz clock
+			I_A9_L					=> zero,
+			I_A8					=> one,
+			I_SEL_L					=> zero, -- low to halve the 3Mhz clock
 
 			I_BDIR					=> s_5B1,
 			I_BC2						=> s_5B10,
@@ -146,9 +149,9 @@ begin
 			I_DA						=> I_SD,
 			O_DA						=> s_34A_data,
 			-- control
-			I_A9_L					=> '0',
-			I_A8						=> '1',
-			I_SEL_L					=> '0', -- low to halve the 3Mhz clock
+			I_A9_L					=> zero,
+			I_A8					=> one,
+			I_SEL_L					=> zero, -- low to halve the 3Mhz clock
 
 			I_BDIR					=> s_5A1,
 			I_BC2						=> s_5A10,

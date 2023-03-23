@@ -47,6 +47,8 @@ architecture RTL of sprite_buff is
 	signal s_4X_di				: std_logic_vector( 7 downto 0) := (others => '0');
 	signal s_4X_do				: std_logic_vector( 7 downto 0) := (others => '0');
 
+	signal zeros_10_to_8	    : std_logic_vector(10 downto 8) := (others => '0');
+
 begin
 	O_BUS <= s_m;
 
@@ -96,8 +98,8 @@ begin
 	-- chip 4C, 4D also 4A, 4B page 5
 	RAM4X : entity work.RAM4X
 	port map (
-		address(10 downto 8)	=> "000",
-		address( 7 downto 0)	=> s_4X_addr,
+		address(10 downto 8) 	=> zeros_10_to_8,
+		address( 7 downto 0) 	=> s_4X_addr,
 		clock			=> I_CLK_12M,
 		clken			=> s_4X_cs,
 		data			=> s_4X_di,

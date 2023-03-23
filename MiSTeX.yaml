@@ -1,0 +1,46 @@
+mainfile: Arcade-BombJack.sv
+
+defines:
+  - MISTER_FB
+
+sourcedirs:
+  - sys
+  - rtl
+  - rtl/bombjack
+  - rtl/T80
+  - rtl/ym2149
+
+quartus:
+  sourcefiles:
+    - mycore.sdc
+    - sys/sys_top.sdc
+    - sys/pll_hdmi_adj.vhd
+    - sys/altera_pll_reconfig_top.v
+    - sys/altera_pll_reconfig_core.v
+    - sys/pll_cfg.v
+    - sys/pll_audio_0002.v
+    - sys/pll_hdmi_0002.v
+    - rtl/dpram.vhd
+    - rtl/memory/ram_1e.vhd
+    - rtl/memory/ram_1h.vhd
+    - rtl/memory/ram_3ef.vhd
+    - rtl/memory/ram_3k.vhd
+    - rtl/memory/ram4x.vhd
+    - rtl/memory/ram_6lm.vhd
+    - rtl/memory/ram_6ab.vhd
+    - rtl/memory/ram_6c.vhd
+    - rtl/pll_0002.v
+
+vivado:
+  sourcefiles:
+    - rtl/pll_0002-xilinx7.v
+    - rtl/dpram.v
+    - rtl/memory/ram_1e.v
+    - rtl/memory/ram_1h.v
+    - rtl/memory/ram_3ef.v
+    - rtl/memory/ram_3k.v
+    - rtl/memory/ram4x.v
+    - rtl/memory/ram_6lm.v
+    - rtl/memory/ram_6ab.v
+    - rtl/memory/ram_6c.v
+    - sys/pll_audio_0002-xilinx7.v

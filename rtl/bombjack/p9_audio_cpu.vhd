@@ -79,6 +79,8 @@ architecture RTL of audio is
 
 	signal ROM_3H_cs        : std_logic;
 
+	signal one				: std_logic := '1';
+
 begin
 
 	-- outputs to PSG board
@@ -214,9 +216,9 @@ begin
 			RESET_n => I_RESET_n,
 			CLK_n   => I_CLK_12M,
 			CLKEN   => I_CLK_EN,			-- 3Mhz clock enable
-			INT_n   => '1',
-			WAIT_n  => '1',
-			BUSRQ_n => '1',
+			INT_n   => one,
+			WAIT_n  => one,
+			BUSRQ_n => one,
 			NMI_n   => s_2J8_n,
 			-- outputs
 			MREQ_n  => s_mreq_n,
