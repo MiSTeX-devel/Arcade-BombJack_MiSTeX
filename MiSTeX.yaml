@@ -1,7 +1,7 @@
 mainfile: Arcade-BombJack.sv
 
 defines:
-  - MISTER_FB
+  MISTER_FB: 1
 
 sourcedirs:
   - sys
