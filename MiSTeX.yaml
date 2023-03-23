@@ -8,13 +8,15 @@ sourcedirs:
   - rtl
   - rtl/bombjack
   - rtl/T80
-  - rtl/ym2149
+
+sourcefiles:
+  - rtl/ym2149/YM2149_linmix.vhd
 
 quartus:
   sourcefiles:
     - mycore.sdc
     - sys/sys_top.sdc
-    - sys/pll_hdmi_adj.vhd
+    - sys_sdcard.v
     - sys/altera_pll_reconfig_top.v
     - sys/altera_pll_reconfig_core.v
     - sys/pll_cfg.v
@@ -30,6 +32,8 @@ quartus:
     - rtl/memory/ram_6ab.vhd
     - rtl/memory/ram_6c.vhd
     - rtl/pll_0002.v
+    - rtl/pll_hdmi_0002.v
+    - sys/pll_hdmi_adj.vhd
 
 vivado:
   sourcefiles:

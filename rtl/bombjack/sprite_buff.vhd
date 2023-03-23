@@ -96,7 +96,7 @@ begin
 	end process;
 
 	-- chip 4C, 4D also 4A, 4B page 5
-	RAM4X : entity work.RAM4X
+	RAM4X : entity work.ram4x
 	port map (
 		address(10 downto 8) 	=> zeros_10_to_8,
 		address( 7 downto 0) 	=> s_4X_addr,

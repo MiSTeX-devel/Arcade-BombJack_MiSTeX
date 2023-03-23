@@ -40,7 +40,7 @@ USE ieee.std_logic_1164.all;
 LIBRARY altera_mf;
 USE altera_mf.altera_mf_components.all;
 
-ENTITY ram_1h IS
+ENTITY ram_1H IS
 	PORT
 	(
 		address		: IN STD_LOGIC_VECTOR (10 DOWNTO 0);

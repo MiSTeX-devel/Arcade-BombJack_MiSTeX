@@ -420,7 +420,7 @@ begin
 	
 	-- CPU RAM 0x8000 - 0x87ff
 	-- chip 1E page 1
-	ram_1E : entity work.ram_1E
+	ram_1E : entity work.ram_1e
 	port map (
 		address_a	=> cpu_addr(10 downto 0),
 		clock_a		=> clk_12M,
@@ -440,7 +440,7 @@ begin
 
 	-- CPU RAM 0x8800 - 0x8fff
 	-- chip 1H page 1
-	ram_1H : entity work.ram_1H
+	ram_1H : entity work.ram_1h
 	port map (
 		address		=> cpu_addr(10 downto 0),
 		clock		=> clk_12M,

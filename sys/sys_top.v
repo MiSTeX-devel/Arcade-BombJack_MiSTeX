@@ -1073,6 +1073,7 @@ cyclonev_clkselect hdmi_clk_sw
 assign hdmi_tx_clk = clk_vid;
 `endif
 
+`ifndef MISTER_DEBUG_NOHDMI
 altddio_out
 #(
 	.extend_oe_disable("OFF"),
@@ -1097,6 +1098,7 @@ hdmiclk_ddr
 	.sclr(1'b0),
 	.sset(1'b0)
 );
+`endif
 
 reg hdmi_out_hs;
 reg hdmi_out_vs;

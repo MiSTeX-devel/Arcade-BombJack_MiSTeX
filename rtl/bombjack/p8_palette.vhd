@@ -108,7 +108,7 @@ begin
 	-- palette accessed by CPU on 4M clock domain and video on 6M clock domain
 
 	-- chips 6A, 6B page 8
-	ram_6AB : entity work.ram_6AB
+	ram_6AB : entity work.ram_6ab
 	port map (
 		address		=> "00" & s_color_addr & '0',
 		clock		=> I_CLK_6M_EN,
