@@ -23,8 +23,11 @@ reg     [data_width_g-1:0] q;
 
 always @(posedge clock) begin
     if (clken) begin
-        if (wren) ram[address] <= data;
-        q <= ram[address];
+        if (wren) begin
+            ram[address] <= data;
+            q <= data;
+        end else
+            q <= ram[address];
     end
 end
 
