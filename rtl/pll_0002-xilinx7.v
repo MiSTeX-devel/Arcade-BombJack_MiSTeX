@@ -10,15 +10,19 @@ module  pll_0002(
 
 	wire feedback1, feedback2;
 	wire cascade;
-	
+
+	wire outclk_0_bufg;
+	wire outclk_1_bufg;
+	wire outclk_2_bufg;
+
 	MMCME2_ADV #(
-		.CLKFBOUT_MULT_F(6'd12),
+		.CLKFBOUT_MULT_F(12.0),
 		.CLKIN1_PERIOD(20.0),
 		.CLKOUT0_DIVIDE_F(12.5), // 48 MHz = 50 MHz * 12 / 12.5
 		.CLKOUT0_PHASE(1'd0),
-		.CLKOUT1_DIVIDE(100), // 6 MHz = 50 MHz * 12 / 100
+		.CLKOUT1_DIVIDE(8'd100), // 6 MHz = 50 MHz * 12 / 100
 		.CLKOUT1_PHASE(1'd0),
-		.CLKOUT2_DIVIDE(25), // 24 MHz = 50 MHz * 12 / 25
+		.CLKOUT2_DIVIDE(8'd25), // 24 MHz = 50 MHz * 12 / 25
 		.CLKOUT2_PHASE(1'd0),
 		.DIVCLK_DIVIDE(1'd1),
 		.REF_JITTER1(0.01),
@@ -29,11 +33,15 @@ module  pll_0002(
 		.PWRDWN(1'b0),
 		.RST(rst),
 		.CLKFBOUT(feedback1),
-		.CLKOUT0(outclk_0),
-		.CLKOUT1(outclk_1),
-		.CLKOUT2(outclk_2),
+		.CLKOUT0(outclk_0_bufg),
+		.CLKOUT1(outclk_1_bufg),
+		.CLKOUT2(outclk_2_bufg),
 		.LOCKED(locked)
 	);
+
+	BUFG outclk_bufg_0 (.I(outclk_0_bufg), .O(outclk_0));
+	BUFG outclk_bufg_1 (.I(outclk_1_bufg), .O(outclk_1));
+	BUFG outclk_bufg_2 (.I(outclk_2_bufg), .O(outclk_2));
 	
 endmodule
 
