@@ -8,7 +8,7 @@ module  pll_0002(
 	output wire locked
 );
 
-	wire feedback1, feedback2;
+	wire feedback;
 	wire cascade;
 
 	wire outclk_0_bufg;
@@ -28,11 +28,11 @@ module  pll_0002(
 		.REF_JITTER1(0.01),
 		.STARTUP_WAIT("FALSE")
 	) BOMBJACK_PLL (
-		.CLKFBIN(feedback1),
+		.CLKFBIN(feedback),
 		.CLKIN1(refclk),
 		.PWRDWN(1'b0),
 		.RST(rst),
-		.CLKFBOUT(feedback1),
+		.CLKFBOUT(feedback),
 		.CLKOUT0(outclk_0_bufg),
 		.CLKOUT1(outclk_1_bufg),
 		.CLKOUT2(outclk_2_bufg),
