@@ -33,7 +33,6 @@ module  pll_0002 (
 		.fbclk	(1'b0),
 		.refclk	(refclk)
 	);
-	);
 `else
 	ALTPLL #(
 		.BANDWIDTH_TYPE("AUTO"),
