@@ -1,4 +1,5 @@
 mainfile: Arcade-BombJack.sv
+use-template-sys: True
 
 defines:
   MISTER_FB: 1
@@ -34,6 +35,7 @@ quartus:
     - rtl/pll_0002.v
     - rtl/pll_hdmi_0002.v
     - sys/pll_hdmi_adj.vhd
+    - sys/hdmi_config.sv
 
 vivado:
   sourcefiles:
