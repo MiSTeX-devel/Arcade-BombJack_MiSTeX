@@ -1,4 +1,4 @@
-// Dual-Port Block RAM with Two Write Ports
+// Block RAM
 // File: ram_1h.v
 
 module ram_1h (

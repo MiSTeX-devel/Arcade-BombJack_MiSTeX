@@ -30,13 +30,11 @@ reg     [data_width_g-1:0] ram [addr_max:0];
 reg     [data_width_g-1:0] q_a, q_b;
 
 always @(posedge clock_a) begin
-    if (enable_a) begin
-        if (wren_a) begin
-            ram[address_a] <= data_a;
-            q_a <= data_a;
-        end else
-            q_a <= ram[address_a];
-    end
+    if (wren_a) begin
+        ram[address_a] <= data_a;
+        q_a <= data_a;
+    end else
+        q_a <= ram[address_a];
 end
 
 always @(posedge clock_b) begin

@@ -1,4 +1,4 @@
-// Dual-Port Block RAM with Two Write Ports
+// Block RAM
 // File: ram_6ab.v
 
 module ram_6ab (

@@ -1,4 +1,4 @@
-// Dual-Port Block RAM with Two Write Ports
+// Single port Block RAM
 // File: ram4x.v
 
 module ram4x (

@@ -424,7 +424,7 @@ begin
 	port map (
 		address_a	=> cpu_addr(10 downto 0),
 		clock_a		=> clk_12M,
-		enable_a		=> s_wram0,
+		enable_a	=> s_wram0,
 		data_a		=> cpu_data_out,
 		wren_a		=> s_mewr,
 		q_a		=> ram0_data,
